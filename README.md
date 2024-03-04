@@ -1,1 +1,1 @@
-# Dni_Otwarte_ZSCL_24
+# Projekt na dni otwarte ZSCL na rok 2024.

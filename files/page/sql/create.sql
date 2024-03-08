@@ -1,4 +1,4 @@
--- Sprawdź czy tabela 'strona' istnieje, jeśli nie, utwórz ją
+
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'strona') THEN
     CREATE TABLE strona(
         id INT AUTO_INCREMENT NOT NULL UNIQUE PRIMARY KEY,
@@ -7,7 +7,6 @@ IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'stron
     );
 END IF;
 
--- Sprawdź czy tabela 'uzytkownicy' istnieje, jeśli nie, utwórz ją
 IF NOT EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'uzytkownicy') THEN
     CREATE TABLE uzytkownicy(
         id INT AUTO_INCREMENT NOT NULL UNIQUE PRIMARY KEY,

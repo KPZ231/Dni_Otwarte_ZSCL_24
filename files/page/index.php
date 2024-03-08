@@ -16,7 +16,6 @@
   </div>
 
 
-
 <div id="cont">
 <h1 style="text-align:center; font-size: 34pt;">Witamy!</h1>
 <h2 style="text-align:center; font-size: 24pt;">W Kreatorze Stron Internetowych ZSCL...</h2>
@@ -25,7 +24,29 @@
 
 
 <div id="container">
-    <button class="button-30" role="button" onclick="windowChange('kreator.html')">Kreator</button>
+    <button class="button-30" role="button" onclick="windowChange('kreator.php')">Kreator</button>
+</div>
+
+<div id="stronyInternetowe">
+
+<!-- <?php
+    $host = "localhost";
+    $pass = "";
+    $user = "root";
+    $database = "dni_otwarte";
+
+    $con = mysqli_connect($host, $user, $pass, $database);
+
+    $zapytanie = mysqli_query($con, "SELECT * FROM uzytkownicy");
+
+    $res = mysqli_fetch_row($zapytanie);
+
+    echo "<p>$res[1]</p>";
+
+
+?> -->
+
+
 </div>
 
 <a href="https://www.zscl.pl/pl/" id="zscl_logo"></a>

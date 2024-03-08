@@ -1,0 +1,33 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "dni_otw",
+            "group": "dni_otw",
+            "database": "dni_otwarte",
+            "username": "root",
+            "password": ""
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 50,
+            "server": "sql313.infinityfree.com",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "dni_zscl",
+            "group": "dni_zscl",
+            "database": "if0_36123822_zscl_dni_otwarte",
+            "username": "if0_36123822"
+        }
+    ]
+}

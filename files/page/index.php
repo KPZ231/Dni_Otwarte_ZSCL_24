@@ -9,9 +9,20 @@
 </head>
 <body>
 
+<div>
+     <div class="wave"></div>
+     <div class="wave"></div>
+     <div class="wave"></div>
+  </div>
+
+
+
+<div id="cont">
 <h1 style="text-align:center; font-size: 34pt;">Witamy!</h1>
 <h2 style="text-align:center; font-size: 24pt;">W Kreatorze Stron Internetowych ZSCL...</h2>
 <h3 style="text-align:center; font-size: 14pt;">Mam Nadzieje Że Ta Przygoda Będzie Dla Ciebie Jak Najwygodniejsza Jak To Możlwe!</h3>
+</div>
+
 
 <div id="container">
     <button class="button-30" role="button" onclick="windowChange('kreator.html')">Kreator</button>

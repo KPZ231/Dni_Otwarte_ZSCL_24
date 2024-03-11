@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
 
-    <title>Dni Otwarte ZSCL 2024 - Kreator Stron</title>
+    <title>Dni warte ZSCL 2024 - Kreator Stron</title>
 </head>
 <body>
 
@@ -28,24 +28,6 @@
 </div>
 
 <div id="stronyInternetowe">
-
-<!-- <?php
-    $host = "localhost";
-    $pass = "";
-    $user = "root";
-    $database = "dni_otwarte";
-
-    $con = mysqli_connect($host, $user, $pass, $database);
-
-    $zapytanie = mysqli_query($con, "SELECT * FROM uzytkownicy");
-
-    $res = mysqli_fetch_row($zapytanie);
-
-    echo "<p>$res[1]</p>";
-
-
-?> -->
-
 
 </div>
 

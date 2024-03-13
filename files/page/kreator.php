@@ -6,7 +6,7 @@
 <title>Code Editor</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/default.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/dracula.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/pastel-on-dark.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.min.css">
 <style>
 
@@ -16,7 +16,6 @@
     }
 
     body {
-        font-family: pixel;
         margin: 0;
         padding: 0;
         display: flex;
@@ -56,12 +55,12 @@
 <div class="editor-container">
     <div class="code-container">
         <div>
-            <h3>Edytor Kodu HTML</h3>
+            <h3 style="font-family: pixel;">Edytor Kodu HTML</h3>
             <hr style="width: 100%; border: 1px solid black;">
         </div>
         <textarea class="code-editor" id="html-editor" placeholder="Place your HTML code here..."></textarea>
         <div>
-            <h3>Edytor Kodu CSS</h3>
+            <h3 style="font-family: pixel;" >Edytor Kodu CSS</h3>
             <hr style="width: 100%; border: 1px solid black;">
         </div>
         <textarea class="code-editor" id="css-editor" placeholder="Place your CSS code here..."></textarea>
@@ -79,14 +78,14 @@
 <script>
     var htmlEditor = CodeMirror.fromTextArea(document.getElementById("html-editor"), {
         mode: "xml",
-        theme: "dracula",
+        theme: "pastel-on-dark",
         lineNumbers: true,
         extraKeys: { "Ctrl-Space": "autocomplete" }
     });
 
     var cssEditor = CodeMirror.fromTextArea(document.getElementById("css-editor"), {
         mode: "css",
-        theme: "dracula",
+        theme: "pastel-on-dark",
         lineNumbers: true,
         extraKeys: { "Ctrl-Space": "autocomplete" }
     });

@@ -7,9 +7,16 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/default.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/dracula.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.min.css">
 <style>
+
+    @font-face {
+    font-family: pixel;
+    src: url(joystix_monospace.woff);
+    }
+
     body {
-        font-family: Arial, sans-serif;
+        font-family: pixel;
         margin: 0;
         padding: 0;
         display: flex;
@@ -62,22 +69,26 @@
 </div>
 <div class="result-container" id="result-container"></div>
 
-
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/xml/xml.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/css/css.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/html-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/css-hint.min.js"></script>
+
 <script>
     var htmlEditor = CodeMirror.fromTextArea(document.getElementById("html-editor"), {
         mode: "xml",
         theme: "dracula",
-        lineNumbers: true
+        lineNumbers: true,
+        extraKeys: { "Ctrl-Space": "autocomplete" }
     });
 
     var cssEditor = CodeMirror.fromTextArea(document.getElementById("css-editor"), {
         mode: "css",
         theme: "dracula",
-        lineNumbers: true
+        lineNumbers: true,
+        extraKeys: { "Ctrl-Space": "autocomplete" }
     });
 
     var resultContainer = document.getElementById("result-container");

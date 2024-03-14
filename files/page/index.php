@@ -24,7 +24,7 @@
 
 
 <div id="container">
-    <button class="button-30" role="button" onclick="windowChange('kreator.html')">Kreator</button>
+    <button class="button-30" role="button" onclick="windowChange('kreator.php')">Kreator</button>
 </div>
 
 <div id="stronyInternetowe">

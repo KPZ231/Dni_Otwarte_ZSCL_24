@@ -7,22 +7,41 @@
 
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.css" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.css"
-    />
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.css" />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/pastel-on-dark.min.css"
-    />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/html-hint.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/xml/xml.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/css/css.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.js"></script>
+      href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/pastel-on-dark.min.css" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/xml-hint.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/html-hint.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/xml/xml.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/css/css.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.js"></script>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/edit/closebrackets.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/edit/matchbrackets.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/edit/matchtags.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/edit/closetag.js"></script>
 
     <style>
       @font-face {
@@ -81,8 +100,7 @@
           id="html-editor"
           class="code-editor cm-content"
           data-language="html"
-          aria-autocomplete="list"
-        ></div>
+          aria-autocomplete="list"></div>
         <div>
           <h3 style="font-family: pixel">Edytor Kodu CSS</h3>
           <hr style="width: 100%; border: 1px solid black" />
@@ -92,44 +110,55 @@
     </div>
     <div class="result-container" id="result-container"></div>
 
-   
-
     <script>
-      var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
-        mode: "text/html", // Change mode to htmlmixed
-        theme: "pastel-on-dark",
-        lineNumbers: true,
-        extraKeys: { "Ctrl-Space": "autocomplete" },
-        hintOptions: {
-          hint: CodeMirror.hint.html,
-          className: "CodeMirror-hints",
-        },
-      });
+      window.onload = function(){
+          var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
+            mode: "text/html",
+            value: "<!DOCTYPE html> \n<html> \n  <head> \n  </head> \n  <body> \n   <h1>Hello, world!</h1> \n  </body> \n</html> \n",
+            theme: "pastel-on-dark",
+            lineNumbers: true,
+            extraKeys: { "Ctrl-Space": "autocomplete" },
+            autoCloseBrackets: true,
+            autoCloseTags: true,
+            hintOptions: {
+              hint: CodeMirror.hint.html,
+              className: "CodeMirror-hints",
+            },
+        });
 
-      var cssEditor = CodeMirror(document.getElementById("css-editor"), {
-        mode: "css",
-        theme: "pastel-on-dark",
-        lineNumbers: true,
-        extraKeys: { "Ctrl-Space": "autocomplete" },
-        hintOptions: {
-          hint: CodeMirror.hint.css,
-          className: "CodeMirror-hints",
-        },
-      });
+        var cssEditor = CodeMirror(document.getElementById("css-editor"), {
+          mode: "css",
+          theme: "pastel-on-dark",
+          value: "/* Tutaj Pisz Kod CSS */ \n body{ \n\n }",
+          lineNumbers: true,
+          extraKeys: { "Ctrl-Space": "autocomplete" },
+          autoCloseBrackets: true,
+          autoCloseTags: true,
+          hintOptions: {
+            hint: CodeMirror.hint.css,
+            className: "CodeMirror-hints",
+          },
+        });
 
-      var resultContainer = document.getElementById("result-container");
 
-      function updateResult() {
-        var htmlCode = htmlEditor.getValue();
-        var cssCode = cssEditor.getValue();
-        resultContainer.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
+        var resultContainer = document.getElementById("result-container");
+
+        function updateResult() {
+          var htmlCode = htmlEditor.getValue();
+          var cssCode = cssEditor.getValue();
+          resultContainer.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
+        }
+
+        htmlEditor.on("change", updateResult);
+        cssEditor.on("change", updateResult);
+
+        // Initial update
+        updateResult();
       }
 
-      htmlEditor.on("change", updateResult);
-      cssEditor.on("change", updateResult);
+      
 
-      // Initial update
-      updateResult();
+      
     </script>
   </body>
 </html>

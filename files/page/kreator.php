@@ -5,24 +5,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Code Editor</title>
-
   <link rel="stylesheet" href="kreator.css">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/pastel-on-dark.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/xml-hint.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/html-hint.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/xml/xml.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/css/css.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/htmlmixed/htmlmixed.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/edit/closebrackets.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/edit/matchbrackets.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/edit/matchtags.js"></script>
@@ -30,43 +24,47 @@
 </head>
 
 <body>
-
   <div id="pageName">
     <h1>Kreator Strony</h1>
-    <form id="createForm" action="kreator.php" method="GET">
-      <input type="text" name="author" placeholder="Imie i nazwisko twórcy..." maxlength="15">
+    <form id="createForm" action="kreator.php" method="POST">
+      <input type="text" id="authorInput" name="author" placeholder="Imie i nazwisko twórcy..." maxlength="15">
       <br><br>
-      <input type="text" name="pageNameInput" placeholder="Nazwa Strony..." maxlength="15" spellcheck="false">
+      <input type="text" id="pageNameInput" name="pageNameInput" placeholder="Nazwa Strony..." maxlength="15" spellcheck="false">
       <br><br>
       <input type="submit" value="Stwórz" name="submit">
     </form>
-
   </div>
 
-
   <?php
+  // kreator.php
 
-  error_reporting(0);
+  // Check if the request is a POST request
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the form data
+    $author = $_POST["author"];
+    $pageName = $_POST["pageName"];
 
-  $login = "root";
-  $database = "dni_otwarte";
-  $pass = "";
-  $host = "localhost";
+    // Process the data if needed
 
-  $conn = mysqli_connect($host, $login, $pass, $database);
+    // Prepare the response data as an associative array
+    $response = array(
+      "author" => $author,
+      "pageName" => $pageName,
+      "status" => "success" // You can add more data as needed
+    );
 
+    // Set the content type header to JSON
+    header('Content-Type: application/json');
 
-
-  if (isset($_GET['submit'])) {
-    $name = $_GET['author'];
-    $page = $_GET['pageNameInput'];
-
-    $ins_1 = mysqli_query($conn, "INSERT INTO uzytkownicy VALUES (0, '$name')");
-    $ins_2 = mysqli_query($conn, "INSERT INTO strona (id, nazwa) VALUES (0, '$page')");
+    // Output the JSON response
+    echo json_encode($response);
+  } else {
+    // Handle other types of requests or return an error if necessary
+    echo "Invalid request method";
   }
-
-  mysqli_close($conn);
   ?>
+
+
 
   <div class="editor-container" id="mainCont" style="visibility: hidden">
     <div class="code-container">
@@ -80,7 +78,6 @@
         <hr style="width: 100%; border: 1px solid black" />
       </div>
       <div id="css-editor" class="code-editor"></div>
-
       <div id="toolbar">
         <input type="button" value="Pobierz Strone" name="download_page">
       </div>
@@ -103,7 +100,34 @@
       var form = document.getElementById("createForm");
       form.addEventListener("submit", function(event) {
         event.preventDefault(); // Prevent the default form submission behavior
-        loadEditor(); // Call your function to load the editor
+        var author = document.getElementById("authorInput").value;
+        var pageName = document.getElementById("pageNameInput").value;
+        var data = {
+          author: author,
+          pageName: pageName,
+          id: generateID() // Function to generate unique ID
+        };
+        // Send data to server
+        fetch('kreator.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Data sent:', data);
+            loadEditor(); // Call your function to load the editor
+          })
+          .catch(error => {
+            console.error('There was an error!', error);
+          });
       });
 
       var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
@@ -152,6 +176,11 @@
 
       // Initial update
       updateResult();
+    }
+
+    function generateID() {
+      // This function generates a unique ID, you can implement your own logic here
+      return '_' + Math.random().toString(36).substr(2, 9);
     }
   </script>
 </body>

@@ -26,7 +26,7 @@
 <body>
   <div id="pageName">
     <h1>Kreator Strony</h1>
-    <form id="createForm" action="kreator.php" method="POST">
+    <form id="createForm" action="#" method="POST" onsubmit="return sendForm()">
       <input type="text" id="authorInput" name="author" placeholder="Imie i nazwisko twórcy..." maxlength="15">
       <br><br>
       <input type="text" id="pageNameInput" name="pageNameInput" placeholder="Nazwa Strony..." maxlength="15" spellcheck="false">
@@ -34,37 +34,6 @@
       <input type="submit" value="Stwórz" name="submit">
     </form>
   </div>
-
-  <?php
-  // kreator.php
-
-  // Check if the request is a POST request
-  if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the form data
-    $author = $_POST["author"];
-    $pageName = $_POST["pageName"];
-
-    // Process the data if needed
-
-    // Prepare the response data as an associative array
-    $response = array(
-      "author" => $author,
-      "pageName" => $pageName,
-      "status" => "success" // You can add more data as needed
-    );
-
-    // Set the content type header to JSON
-    header('Content-Type: application/json');
-
-    // Output the JSON response
-    echo json_encode($response);
-  } else {
-    // Handle other types of requests or return an error if necessary
-    echo "Invalid request method";
-  }
-  ?>
-
-
 
   <div class="editor-container" id="mainCont" style="visibility: hidden">
     <div class="code-container">
@@ -96,92 +65,93 @@
       pageCreator.style.visibility = "hidden";
     }
 
-    window.onload = function() {
-      var form = document.getElementById("createForm");
-      form.addEventListener("submit", function(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
-        var author = document.getElementById("authorInput").value;
-        var pageName = document.getElementById("pageNameInput").value;
-        var data = {
-          author: author,
-          pageName: pageName,
-          id: generateID() // Function to generate unique ID
-        };
-        // Send data to server
-        fetch('kreator.php', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-          })
-          .then(response => {
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            return response.json();
-          })
-          .then(data => {
-            console.log('Data sent:', data);
-            loadEditor(); // Call your function to load the editor
-          })
-          .catch(error => {
-            console.error('There was an error!', error);
-          });
-      });
+    var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
+      mode: "text/html",
+      value: "<!DOCTYPE html> \n<html> \n  <head> \n  </head> \n  <body> \n   <h1>Hello, world!</h1> \n  </body> \n</html> \n",
+      theme: "pastel-on-dark",
+      lineNumbers: true,
+      extraKeys: {
+        "Ctrl-Space": "autocomplete"
+      },
+      autoCloseBrackets: true,
+      autoCloseTags: true,
+      hintOptions: {
+        hint: CodeMirror.hint.html,
+        className: "CodeMirror-hints",
+      },
+    });
 
-      var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
-        mode: "text/html",
-        value: "<!DOCTYPE html> \n<html> \n  <head> \n  </head> \n  <body> \n   <h1>Hello, world!</h1> \n  </body> \n</html> \n",
-        theme: "pastel-on-dark",
-        lineNumbers: true,
-        extraKeys: {
-          "Ctrl-Space": "autocomplete"
-        },
-        autoCloseBrackets: true,
-        autoCloseTags: true,
-        hintOptions: {
-          hint: CodeMirror.hint.html,
-          className: "CodeMirror-hints",
-        },
-      });
+    var cssEditor = CodeMirror(document.getElementById("css-editor"), {
+      mode: "css",
+      theme: "pastel-on-dark",
+      value: "/* Tutaj Pisz Kod CSS */ \n body{ \n\n }",
+      lineNumbers: true,
+      extraKeys: {
+        "Ctrl-Space": "autocomplete"
+      },
+      autoCloseBrackets: true,
+      autoCloseTags: true,
+      hintOptions: {
+        hint: CodeMirror.hint.css,
+        className: "CodeMirror-hints",
+      },
+    });
 
-      var cssEditor = CodeMirror(document.getElementById("css-editor"), {
-        mode: "css",
-        theme: "pastel-on-dark",
-        value: "/* Tutaj Pisz Kod CSS */ \n body{ \n\n }",
-        lineNumbers: true,
-        extraKeys: {
-          "Ctrl-Space": "autocomplete"
-        },
-        autoCloseBrackets: true,
-        autoCloseTags: true,
-        hintOptions: {
-          hint: CodeMirror.hint.css,
-          className: "CodeMirror-hints",
-        },
-      });
+    var resultContainer = document.getElementById("result-container");
 
-
-      var resultContainer = document.getElementById("result-container");
-
-      function updateResult() {
-        var htmlCode = htmlEditor.getValue();
-        var cssCode = cssEditor.getValue();
-        resultContainer.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
-      }
-
-      htmlEditor.on("change", updateResult);
-      cssEditor.on("change", updateResult);
-
-      // Initial update
-      updateResult();
+    function updateResult() {
+      var htmlCode = htmlEditor.getValue();
+      var cssCode = cssEditor.getValue();
+      resultContainer.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
     }
+
+    htmlEditor.on("change", updateResult);
+    cssEditor.on("change", updateResult);
+
+    // Initial update
+    updateResult();
 
     function generateID() {
       // This function generates a unique ID, you can implement your own logic here
       return '_' + Math.random().toString(36).substr(2, 9);
     }
+
+    function sendForm() {
+      var author = document.getElementById('authorInput').value;
+      var pageName = document.getElementById('pageNameInput').value;
+      
+      // Tworzymy obiekt danych JSON z wartościami z formularza
+      var data = {
+        author: author,
+        pageName: pageName
+      };
+
+      var jsonData = JSON.stringify(data); // Przypisanie danych do zmiennej jsonData
+
+      // Generowanie unikalnej nazwy pliku z timestampem
+      var timestamp = new Date().getTime();
+      var fileName = 'data_' + timestamp + '.json';
+
+      // Zapisz dane do pliku JSON na serwerze
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            console.log("JSON data saved successfully.");
+          } else {
+            console.error("Failed to save JSON data.");
+          }
+        }
+      };
+
+      xhr.open('POST', 'kreator.php', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.send(JSON.stringify({fileName: fileName, jsonData: jsonData}));
+
+      return false; // Prevent form submission
+    }
+
+
   </script>
 </body>
 

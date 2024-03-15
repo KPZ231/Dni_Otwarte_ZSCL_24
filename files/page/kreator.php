@@ -24,9 +24,14 @@
 </head>
 
 <body>
+
+
+
+
+
   <div id="pageName">
     <h1>Kreator Strony</h1>
-    <form id="createForm" action="#" method="POST" onsubmit="return sendForm()">
+    <form id="createForm" action="" method="POST">
       <input type="text" id="authorInput" name="author" placeholder="Imie i nazwisko twórcy..." maxlength="15">
       <br><br>
       <input type="text" id="pageNameInput" name="pageNameInput" placeholder="Nazwa Strony..." maxlength="15" spellcheck="false">
@@ -34,6 +39,31 @@
       <input type="submit" value="Stwórz" name="submit">
     </form>
   </div>
+
+  <?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
+
+    function get_data() { 
+        $datea = array();
+        $datae[] = array( 
+            'Name' => $_POST['author'], 
+            'PageName' => $_POST['pageNameInput'] 
+        ); 
+        return json_encode($datae). PHP_EOL;; 
+    } 
+
+    $file_name = "kreator.json"; // Zmieniamy rozszerzenie pliku na .txt
+
+    if(file_put_contents($file_name, get_data(), FILE_APPEND | LOCK_EX)) { // Dodajemy FILE_APPEND i LOCK_EX
+        echo 'Data added to ' . $file_name; 
+    } 
+    else { 
+        echo 'There is some error'; 
+    } 
+} 
+?>
+
+
 
   <div class="editor-container" id="mainCont" style="visibility: hidden">
     <div class="code-container">
@@ -52,102 +82,72 @@
       </div>
     </div>
   </div>
+
+
   <div class="result-container" id="result-container" style="visibility: hidden;"></div>
 
   <script>
-    function loadEditor() {
-      var editor = document.getElementById("mainCont");
-      var result = document.getElementById("result-container");
-      var pageCreator = document.getElementById("pageName");
+  function loadEditor() {
+    event.preventDefault();
+    var editor = document.getElementById("mainCont");
+    var result = document.getElementById("result-container");
+    var pageCreator = document.getElementById("pageName");
 
-      editor.style.visibility = "visible";
-      result.style.visibility = "visible";
-      pageCreator.style.visibility = "hidden";
-    }
+    editor.style.visibility = "visible";
+    result.style.visibility = "visible";
+    pageCreator.style.visibility = "hidden";
+  }
 
-    var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
-      mode: "text/html",
-      value: "<!DOCTYPE html> \n<html> \n  <head> \n  </head> \n  <body> \n   <h1>Hello, world!</h1> \n  </body> \n</html> \n",
-      theme: "pastel-on-dark",
-      lineNumbers: true,
-      extraKeys: {
-        "Ctrl-Space": "autocomplete"
-      },
-      autoCloseBrackets: true,
-      autoCloseTags: true,
-      hintOptions: {
-        hint: CodeMirror.hint.html,
-        className: "CodeMirror-hints",
-      },
-    });
+  var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
+    mode: "text/html",
+    value: "<!DOCTYPE html> \n<html> \n  <head> \n  </head> \n  <body> \n   <h1>Hello, world!</h1> \n  </body> \n</html> \n",
+    theme: "pastel-on-dark",
+    lineNumbers: true,
+    extraKeys: {
+      "Ctrl-Space": "autocomplete"
+    },
+    autoCloseBrackets: true,
+    autoCloseTags: true,
+    hintOptions: {
+      hint: CodeMirror.hint.html,
+      className: "CodeMirror-hints",
+    },
+  });
 
-    var cssEditor = CodeMirror(document.getElementById("css-editor"), {
-      mode: "css",
-      theme: "pastel-on-dark",
-      value: "/* Tutaj Pisz Kod CSS */ \n body{ \n\n }",
-      lineNumbers: true,
-      extraKeys: {
-        "Ctrl-Space": "autocomplete"
-      },
-      autoCloseBrackets: true,
-      autoCloseTags: true,
-      hintOptions: {
-        hint: CodeMirror.hint.css,
-        className: "CodeMirror-hints",
-      },
-    });
+  var cssEditor = CodeMirror(document.getElementById("css-editor"), {
+    mode: "css",
+    theme: "pastel-on-dark",
+    value: "/* Tutaj Pisz Kod CSS */ \n body{ \n\n }",
+    lineNumbers: true,
+    extraKeys: {
+      "Ctrl-Space": "autocomplete"
+    },
+    autoCloseBrackets: true,
+    autoCloseTags: true,
+    hintOptions: {
+      hint: CodeMirror.hint.css,
+      className: "CodeMirror-hints",
+    },
+  });
 
-    var resultContainer = document.getElementById("result-container");
+  var resultContainer = document.getElementById("result-container");
 
-    function updateResult() {
-      var htmlCode = htmlEditor.getValue();
-      var cssCode = cssEditor.getValue();
-      resultContainer.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
-    }
+  function updateResult() {
+    var htmlCode = htmlEditor.getValue();
+    var cssCode = cssEditor.getValue();
+    resultContainer.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
+  }
 
-    htmlEditor.on("change", updateResult);
-    cssEditor.on("change", updateResult);
+  htmlEditor.on("change", updateResult);
+  cssEditor.on("change", updateResult);
 
-    // Initial update
-    updateResult();
-
-    function generateID() {
-      // This function generates a unique ID, you can implement your own logic here
-      return '_' + Math.random().toString(36).substr(2, 9);
-    }
-
-  function sendForm() {
-  var author = document.getElementById('authorInput').value;
-  var pageName = document.getElementById('pageNameInput').value;
-  
-  // Create a JSON object with values from the form
-  var data = {
-    ID: generateID(), // Generate a unique ID for this entry
-    "Imie nazwisko": author, // Use "Imie nazwisko" as the key for author name
-    "Nazwa strony": pageName // Use "Nazwa strony" as the key for page name
-  };
-
-  var jsonData = JSON.stringify(data, null, 2); // Convert the data object to a formatted JSON string
-
-  // Create a Blob with the JSON data
-  var blob = new Blob([jsonData], {type: 'application/json'});
-
-  // Create a temporary anchor element and trigger the download
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = data['Imie nazwisko'] + '_' + data['Nazwa strony'] + '.json'; // Custom file name format
-  
-  // Append anchor to body, click it to trigger download, then remove it
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-
-  return false; // Prevent the default form submission
-}
+  // Initial update
+  updateResult();
+</script>
 
 
 
-  </script>
+
 </body>
 
 </html>

@@ -116,40 +116,35 @@
       return '_' + Math.random().toString(36).substr(2, 9);
     }
 
-    function sendForm() {
-      var author = document.getElementById('authorInput').value;
-      var pageName = document.getElementById('pageNameInput').value;
-      
-      // Tworzymy obiekt danych JSON z wartościami z formularza
-      var data = {
-        author: author,
-        pageName: pageName
-      };
+  function sendForm() {
+  var author = document.getElementById('authorInput').value;
+  var pageName = document.getElementById('pageNameInput').value;
+  
+  // Create a JSON object with values from the form
+  var data = {
+    ID: generateID(), // Generate a unique ID for this entry
+    "Imie nazwisko": author, // Use "Imie nazwisko" as the key for author name
+    "Nazwa strony": pageName // Use "Nazwa strony" as the key for page name
+  };
 
-      var jsonData = JSON.stringify(data); // Przypisanie danych do zmiennej jsonData
+  var jsonData = JSON.stringify(data, null, 2); // Convert the data object to a formatted JSON string
 
-      // Generowanie unikalnej nazwy pliku z timestampem
-      var timestamp = new Date().getTime();
-      var fileName = 'data_' + timestamp + '.json';
+  // Create a Blob with the JSON data
+  var blob = new Blob([jsonData], {type: 'application/json'});
 
-      // Zapisz dane do pliku JSON na serwerze
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            console.log("JSON data saved successfully.");
-          } else {
-            console.error("Failed to save JSON data.");
-          }
-        }
-      };
+  // Create a temporary anchor element and trigger the download
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = data['Imie nazwisko'] + '_' + data['Nazwa strony'] + '.json'; // Custom file name format
+  
+  // Append anchor to body, click it to trigger download, then remove it
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 
-      xhr.open('POST', 'kreator.php', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify({fileName: fileName, jsonData: jsonData}));
+  return false; // Prevent the default form submission
+}
 
-      return false; // Prevent form submission
-    }
 
 
   </script>

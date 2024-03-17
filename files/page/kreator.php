@@ -25,47 +25,7 @@
 
 <body>
 
-
-
-
-
-  <div id="pageName">
-    <h1>Kreator Strony</h1>
-    <form id="createForm" action="" method="POST">
-      <input type="text" id="authorInput" name="author" placeholder="Imie i nazwisko twórcy..." maxlength="15">
-      <br><br>
-      <input type="text" id="pageNameInput" name="pageNameInput" placeholder="Nazwa Strony..." maxlength="15" spellcheck="false">
-      <br><br>
-      <input type="submit" value="Stwórz" name="submit">
-    </form>
-  </div>
-
-  <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
-
-    function get_data() { 
-        $datea = array();
-        $datae[] = array( 
-            'Name' => $_POST['author'], 
-            'PageName' => $_POST['pageNameInput'] 
-        ); 
-        return json_encode($datae). PHP_EOL;; 
-    } 
-
-    $file_name = "kreator.json"; // Zmieniamy rozszerzenie pliku na .txt
-
-    if(file_put_contents($file_name, get_data(), FILE_APPEND | LOCK_EX)) { // Dodajemy FILE_APPEND i LOCK_EX
-        echo 'Data added to ' . $file_name; 
-    } 
-    else { 
-        echo 'There is some error'; 
-    } 
-} 
-?>
-
-
-
-  <div class="editor-container" id="mainCont" style="visibility: hidden">
+  <div class="editor-container" id="mainCont">
     <div class="code-container">
       <div>
         <h3 style="font-family: pixel">Edytor Kodu HTML</h3>
@@ -84,11 +44,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   </div>
 
 
-  <div class="result-container" id="result-container" style="visibility: hidden;"></div>
+  <div class="result-container" id="result-container"></div>
 
   <script>
   function loadEditor() {
-    event.preventDefault();
     var editor = document.getElementById("mainCont");
     var result = document.getElementById("result-container");
     var pageCreator = document.getElementById("pageName");

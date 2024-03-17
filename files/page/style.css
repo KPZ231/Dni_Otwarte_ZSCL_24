@@ -27,6 +27,35 @@ h1,h2,h3,h4,h5, p{
     left: 20px; /* Odległość od lewej strony */
 }
 
+
+#website{
+  background-color: rgba(165, 40, 103, 0.4);
+  box-shadow: rgb(184, 83, 150) 5px 5px;
+  
+  width: fit-content;
+  margin: auto;
+  position: relative;
+}
+
+#website a{
+    color: white;
+    font-style: italic;
+    text-decoration: none; 
+}
+
+#website a:link { 
+  text-decoration: none; 
+} 
+#website a:visited { 
+  text-decoration: none; 
+} 
+#website a:hover { 
+  text-decoration: none; 
+} 
+#website a:active { 
+  text-decoration: none; 
+}
+
 #cont{
   background-color: rgba(165, 40, 103, 0.4);
   box-shadow: rgb(184, 83, 150) 5px 5px;
@@ -53,8 +82,8 @@ h1,h2,h3,h4,h5, p{
     color: #36395A;
     cursor: pointer;
     display: inline-flex;
-    font-family: "JetBrains Mono", monospace;
-    height: 48px;
+    font-family: pixel;
+    height: 64px;
     justify-content: center;
     line-height: 1;
     list-style: none;

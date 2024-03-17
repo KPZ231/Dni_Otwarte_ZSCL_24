@@ -37,9 +37,6 @@
         <hr style="width: 100%; border: 1px solid black" />
       </div>
       <div id="css-editor" class="code-editor"></div>
-      <div id="toolbar">
-        <input type="button" value="Pobierz Strone" name="download_page">
-      </div>
     </div>
   </div>
 

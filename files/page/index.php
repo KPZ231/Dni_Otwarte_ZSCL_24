@@ -50,7 +50,7 @@
                 const stronyInternetoweDiv = document.getElementById('stronyInternetowe');
                 data.forEach(strona => {
                     const div = document.createElement('div');
-                    div.id = 'website_' + strona.ID; // Nadajemy ID divowi na podstawie ID pobranego z pliku JSON
+                    div.id = 'website'; // Nadajemy ID divowi na podstawie ID pobranego z pliku JSON
                     const h1 = document.createElement('h1');
                     const a = document.createElement('a');
                     a.href = `kreator.php?pageId=${strona.ID}`; // Ustawiamy link na kreator.php z odpowiednim ID strony

@@ -29,7 +29,7 @@
         <button class="button-30" role="button" onclick="windowChange('kreator_strony.php')">Kreator</button>
     </div>
 
-    <!-- <div id="stronyInternetowe"></div> -->
+    <div id="stronyInternetowe"></div>
 
     <a href="https://www.zscl.pl/pl/" id="zscl_logo"></a>
 
@@ -44,24 +44,23 @@
             window.location.href = `./${windowName}`;
         }
 
-        // // Pobieranie danych z pliku kreator.json i tworzenie bloku w div o id stronyInternetowe
-        // fetch('kreator.json')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         const stronyInternetoweDiv = document.getElementById('stronyInternetowe');
-        //         data.forEach(strona => {
-        //             const div = document.createElement('div');
-        //             div.id = 'website';
-        //             const h1 = document.createElement('h1');
-        //             const a = document.createElement('a');
-        //             a.href = ''; // Ustawiamy link na pusto, gdyż nie ma go w pliku JSON
-        //             a.textContent = strona.PageName;
-        //             h1.appendChild(a);
-        //             div.appendChild(h1);
-        //             stronyInternetoweDiv.appendChild(div);
-        //         });
-        //     })
-        //     .catch(error => console.error('Błąd pobierania danych:', error));
+        fetch('kreator.json')
+            .then(response => response.json())
+            .then(data => {
+                const stronyInternetoweDiv = document.getElementById('stronyInternetowe');
+                data.forEach(strona => {
+                    const div = document.createElement('div');
+                    div.id = 'website_' + strona.ID; // Nadajemy ID divowi na podstawie ID pobranego z pliku JSON
+                    const h1 = document.createElement('h1');
+                    const a = document.createElement('a');
+                    a.href = `kreator.php?pageId=${strona.ID}`; // Ustawiamy link na kreator.php z odpowiednim ID strony
+                    a.textContent = strona.PageName;
+                    h1.appendChild(a);
+                    div.appendChild(h1);
+                    stronyInternetoweDiv.appendChild(div);
+                });
+            })
+            .catch(error => console.error('Błąd pobierania danych:', error));
     </script>
 
 </body>

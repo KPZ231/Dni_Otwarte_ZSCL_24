@@ -7,6 +7,25 @@
     {
         "ID": "65f758a30496d",
         "Name": "Kacper Duda",
-        "PageName": "Strona TEstowa1"
+        "PageName": "Strona TEstowa1",
+        "HTML": "<!DOCTYPE html> \r\n<html> \r\n  <head> \r\n  <\/head> \r\n  <body> \r\n    \r\n   <h1>Hello, world!<\/h1> \r\n  <\/body> \r\n<\/html> \r\n",
+        "CSS": "\/* Tutaj Pisz Kod CSS *\/ \r\n body{ \r\n\r\n }"
+    },
+    {
+        "ID": "65f7f59beae68",
+        "Name": "Filip Terelak",
+        "PageName": "Mega Strona FT"
+    },
+    {
+        "ID": "65f7f5feb3888",
+        "Name": "Kacper Duda",
+        "PageName": "Strona Testowa1"
+    },
+    {
+        "ID": "65f7f77f6160c",
+        "Name": "Kacper Duda",
+        "PageName": "Strona Testowa1",
+        "HTML": "<!DOCTYPE html> \r\n<html> \r\n  <head> \r\n  <\/head> \r\n  <body> \r\n   <h1>Hello, world!<\/h1> \r\n    \r\n    \r\n    <h1>\r\n      menel\r\n    <\/h1>\r\n  <\/body> \r\n<\/html> \r\n",
+        "CSS": "\/* Tutaj Pisz Kod CSS *\/ \r\n body{ \r\n\r\n }"
     }
 ]

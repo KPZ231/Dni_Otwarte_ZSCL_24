@@ -68,8 +68,10 @@
 
           // Dodaj lub zaktualizuj dane
           if ($found_index !== -1) {
-              $data[$found_index]['HTML'] = $html;
-              $data[$found_index]['CSS'] = $css;
+              $data[$found_index] = array_merge($data[$found_index], [
+                  'HTML' => $html,
+                  'CSS' => $css,
+              ]);
           } else {
               $data[] = array(
                   'ID' => $unique_id, // Użyj istniejącego lub nowo wygenerowanego unikalnego identyfikatora
@@ -94,10 +96,39 @@
       $html = $_POST['html'];
       $css = $_POST['css'];
       
-      // Wywołanie funkcji save_data
-      save_data($html, $css);
   }
+
+
   ?>
+
+  <?php
+  $id = null;
+  if (isset($_GET['pageId'])) {
+      $id = $_GET['pageId'];
+      setcookie('unique_id', $id, time() + (86400 * 30), "/");
+  } elseif (isset($_COOKIE['unique_id'])) {
+      $id = $_COOKIE['unique_id'];
+  }
+
+  $data = json_decode(file_get_contents("kreator.json"), true);
+  $current_page = null;
+  if ($id && $data) {
+      foreach ($data as $page) {
+          if ($page['ID'] == $id) {
+              $current_page = $page;
+              break;
+          }
+      }
+  }
+
+  $default_html = "<!DOCTYPE html> \n<html> \n  <head> \n  </head> \n  <body> \n   <h1>Hello, world!</h1> \n  </body> \n</html> \n";
+  $default_css = "/* Tutaj Pisz Kod CSS */ \n body{ \n\n }";
+  ?>
+
+  <script>
+    var loadedHTML = <?php echo json_encode($current_page['HTML'] ?? $default_html); ?>;
+    var loadedCSS = <?php echo json_encode($current_page['CSS'] ?? $default_css); ?>;
+  </script>
 
   <div class="result-container" id="result-container"></div>
 
@@ -126,7 +157,7 @@
 
     var htmlEditor = CodeMirror(document.getElementById("html-editor"), {
       mode: "text/html",
-      value: "<!DOCTYPE html> \n<html> \n  <head> \n  </head> \n  <body> \n   <h1>Hello, world!</h1> \n  </body> \n</html> \n",
+      value: loadedHTML,
       theme: "pastel-on-dark",
       lineNumbers: true,
       extraKeys: {
@@ -143,7 +174,7 @@
     var cssEditor = CodeMirror(document.getElementById("css-editor"), {
       mode: "css",
       theme: "pastel-on-dark",
-      value: "/* Tutaj Pisz Kod CSS */ \n body{ \n\n }",
+      value: loadedCSS,
       lineNumbers: true,
       extraKeys: {
         "Ctrl-Space": "autocomplete"

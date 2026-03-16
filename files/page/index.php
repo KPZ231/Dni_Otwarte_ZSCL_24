@@ -34,9 +34,7 @@
     <a href="https://www.zscl.pl/pl/" id="zscl_logo"></a>
 
     <footer>
-        Strona Wykonana Przez: Kacper Duda 2TP
-        <br>
-        Na Licencji CC0 1.0 Universal
+        Strona Wykonana Przez: 4 TIS
     </footer>
 
     <script>

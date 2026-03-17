@@ -96,6 +96,7 @@
       $html = $_POST['html'];
       $css = $_POST['css'];
       
+      save_data($html, $css);
   }
 
 
@@ -130,7 +131,7 @@
     var loadedCSS = <?php echo json_encode($current_page['CSS'] ?? $default_css); ?>;
   </script>
 
-  <div class="result-container" id="result-container"></div>
+  <iframe class="result-container" id="result-container"></iframe>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/addon/hint/show-hint.js"></script>
@@ -192,7 +193,12 @@
     function updateResult() {
       var htmlCode = htmlEditor.getValue();
       var cssCode = cssEditor.getValue();
-      resultContainer.innerHTML = htmlCode + "<style>" + cssCode + "</style>";
+      var fullHtml = htmlCode.replace('</head>', '<style>' + cssCode + '</style></head>');
+      if (fullHtml === htmlCode) {
+        // No </head> found, prepend
+        fullHtml = '<style>' + cssCode + '</style>' + htmlCode;
+      }
+      resultContainer.srcdoc = fullHtml;
     }
 
     htmlEditor.on("change", updateResult);
